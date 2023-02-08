@@ -1,0 +1,6 @@
+pandas
+requests
+Django
+djangorestframework 
+djangorestframework-jwt
+pypi-xmlrpc
