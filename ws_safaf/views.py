@@ -71,10 +71,13 @@ class CuentasViewSet(APIView):
 
     def post(self, request, *args, **kwargs):
         info_create = request.data 
+        print(info_create)
         odoo_helper = OdooHelper()
         models, uid = odoo_helper.authenticate_odoo()  
+        print(uid)
         respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
                                    modelo='account.account', funcion='create_cuenta')
+        print(respuesta)
         
         return Response(respuesta, status=status.HTTP_200_OK)
     
