@@ -10,7 +10,7 @@ import xmlrpc.client
 
 class OdooHelper():   
      
-    database_name = 'odoo16-safaf-ups'
+    database_name = 'odoo16-saffinal'
     user = 'admin'
     password = 'admin'
     url_server = '172.16.100.59'
@@ -22,6 +22,8 @@ class OdooHelper():
         print(odoo.version())
 
         uid = odoo.authenticate(self.database_name, self.user, self.password, {})
+        
+        print(uid)
 
         models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format('http://'+self.url_server +':8069'))
         return models, uid
@@ -39,12 +41,9 @@ class EmpleadosViewSet(APIView):
     def post(self, request, *args, **kwargs):
         info_create = request.data 
         odoo_helper = OdooHelper()
-        print(info_create)
         models, uid = odoo_helper.authenticate_odoo()  
-        print(uid)
         respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
                                    modelo='hr.employee', funcion='create_empleado')
-        
         return Response(respuesta, status=status.HTTP_200_OK)
     
     def put(self, request, *args, **kwargs):
@@ -71,13 +70,10 @@ class CuentasViewSet(APIView):
 
     def post(self, request, *args, **kwargs):
         info_create = request.data 
-        print(info_create)
         odoo_helper = OdooHelper()
         models, uid = odoo_helper.authenticate_odoo()  
-        print(uid)
         respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
                                    modelo='account.account', funcion='create_cuenta')
-        print(respuesta)
         
         return Response(respuesta, status=status.HTTP_200_OK)
     
@@ -96,5 +92,133 @@ class CuentasViewSet(APIView):
         models, uid = odoo_helper.authenticate_odoo()  
         respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_delete, 
                                    modelo='account.account', funcion='eliminar_cuenta')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+
+class ContactoViewSet(APIView):
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        info_create = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo() 
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
+                                   modelo='res.partner', funcion='create_contacto')
+        
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    def put(self, request, *args, **kwargs):
+        info_update = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_update, 
+                                   modelo='res.partner', funcion='actualizar_contacto')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    
+    def delete(self, request, *args, **kwargs):
+        info_delete = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_delete, 
+                                   modelo='res.partner', funcion='eliminar_contacto')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+
+class CampusViewSet(APIView):
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        info_create = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo() 
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
+                                   modelo='saf.campus', funcion='create_campus')
+        
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    def put(self, request, *args, **kwargs):
+        info_update = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_update, 
+                                   modelo='saf.campus', funcion='actualizar_campus')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    
+    def delete(self, request, *args, **kwargs):
+        info_delete = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_delete, 
+                                   modelo='saf.campus', funcion='eliminar_campus')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    
+class BloqueViewSet(APIView):
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        info_create = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo() 
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
+                                   modelo='saf.bloque', funcion='create_bloques')
+        
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    def put(self, request, *args, **kwargs):
+        info_update = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_update, 
+                                   modelo='saf.bloque', funcion='actualizar_bloques')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    
+    def delete(self, request, *args, **kwargs):
+        info_delete = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_delete, 
+                                   modelo='saf.bloque', funcion='eliminar_bloques')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+
+class EspacioFisicoViewSet(APIView):
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        info_create = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo() 
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_create, 
+                                   modelo='saf.espacio_fisico', funcion='create_espacios_fisicos')
+        
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    def put(self, request, *args, **kwargs):
+        info_update = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_update, 
+                                   modelo='saf.espacio_fisico', funcion='actualizar_espacios_fisicos')
+        return Response(respuesta, status=status.HTTP_200_OK)
+    
+    
+    def delete(self, request, *args, **kwargs):
+        info_delete = request.data 
+        odoo_helper = OdooHelper()
+        models, uid = odoo_helper.authenticate_odoo()  
+        respuesta = odoo_helper.enviar_peticion( models=models, uid=uid, data=info_delete, 
+                                   modelo='saf.espacio_fisico', funcion='eliminar_espacios_fisicos')
         return Response(respuesta, status=status.HTTP_200_OK)
         
